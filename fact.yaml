@@ -1,7 +1,0 @@
----
-- name: Fact dump
-  hosts: mn-node1
-  tasks:
-    - name: Print all facts
-      debug:
-        var: ansible_facts
