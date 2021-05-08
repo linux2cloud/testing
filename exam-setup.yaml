@@ -1,13 +1,6 @@
 ---
 - name: Execute setup
   hosts: cn-node
-  vars_prompt:
-    - name: servera
-      prompt: "Enter IP address of servera"
-      private: no
-    - name: serverb
-      prompt: "Enter IP address of serverb"
-      private: no
   pre_tasks:
     - name: Setting hosts file on localhost
       lineinfile:
