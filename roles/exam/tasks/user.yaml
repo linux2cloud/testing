@@ -1,0 +1,41 @@
+---
+- name: Setting up infra on remote
+  user:
+    name: devops
+    state: present
+    password: "{{ 'redhat' | password_hash('sha512') }}"
+  delegate_to: "{{ item }}"
+  loop:
+    - servera
+    - serverb
+
+- name: Setting up infra on remote
+  user:
+    name: student
+    state: present
+    password: "{{ 'redhat' | password_hash('sha512') }}"
+  delegate_to: "{{ item }}"
+  loop:
+    - servera
+    - serverb
+
+- name: Setting up infra on localhost
+  user:
+    name: student
+    state: present
+    password: "{{ 'redhat' | password_hash('sha512') }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+  register: user_info
+
+- name: Key less authentication with devops
+  authorized_key:
+    user: devops
+    state: present
+    key: "{{ user_info['ssh_public_key'] }}"
+  delegate_to: "{{ item }}"
+  loop:
+    - servera
+    - serverb
+

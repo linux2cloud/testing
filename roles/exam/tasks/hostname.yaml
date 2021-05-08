@@ -1,0 +1,27 @@
+---
+- name: Setup hostname of localhost
+  hostname:
+    name: workstation.lab.example.com
+
+- name: Setup hostname of servera
+  hostname:
+    name: servera.lab.example.com
+  delegate_to: servera
+
+- name: Setup hostname of serverb
+  hostname:
+    name: serverb.lab.example.com
+  delegate_to: serverb
+
+- name: Setup hosts file
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ ansible_facts['default_ipv4']['address'] }} workstation.lab.example.com classroom.example.com"
+    state: present
+    create: yes
+    backup: yes
+  delegate_to: "{{ item }}"
+  loop:
+    - servera
+    - serverb
+    - localhost

@@ -1,0 +1,31 @@
+---
+- name: Seting URLs
+  yum:
+    name: httpd
+    state: latest
+
+- name: Setting up services
+  service:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Creating document root
+  file:
+    path: /var/www/html/content
+    state: directory
+    owner: apache
+    group: apache
+    mode: 0755
+
+    #- name: Setting Document
+    #unarchive:
+    #src: exam.tar
+    #dest: /var/www/html/content
+
+- name: Allowing Access
+  firewalld:
+    immediate: true
+    permanent: yes
+    state: enabled
+    service: http

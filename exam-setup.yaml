@@ -1,0 +1,33 @@
+---
+- name: Execute setup
+  hosts: localhost
+  vars_prompt:
+    - name: servera
+      prompt: "Enter IP address of servera"
+      private: no
+    - name: serverb
+      prompt: "Enter IP address of serverb"
+      private: no
+  pre_tasks:
+    - name: Setting hosts file on localhost
+      lineinfile:
+        dest: /etc/hosts
+        state: present
+        create: yes
+        backup: yes
+        line: "{{ item }}"
+      loop:
+        - "{{ servera }} servera.lab.example.com servera"
+        - "{{ serverb }} serverb.lab.example.com serverb"
+
+    - name: Setting hostfile on remote host
+      copy:
+        src: /etc/hosts
+        dest: /etc/hosts
+      delegate_to: "{{ item }}"
+      loop:
+        - servera
+        - serverb
+
+  roles:
+    - exam
