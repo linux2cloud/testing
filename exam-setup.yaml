@@ -1,6 +1,6 @@
 ---
 - name: Execute setup
-  hosts: localhost
+  hosts: cn-node
   vars_prompt:
     - name: servera
       prompt: "Enter IP address of servera"
