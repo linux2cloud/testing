@@ -1,6 +1,6 @@
 ---
 - name: Execute setup
-  hosts: cn-node
+  hosts: cnnode
   pre_tasks:
     - name: Setting hosts file on localhost
       lineinfile:
